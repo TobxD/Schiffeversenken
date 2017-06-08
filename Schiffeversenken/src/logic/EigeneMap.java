@@ -41,12 +41,12 @@ public class EigeneMap extends Spielfeld {
 		// 1er Schiff
 		matrix[8][0] = Feld.SCHIFF;/*
 		
-		for(int i = 5; i > 0; i--) { // Schleife, die f�r jedes Schiff von 5 bis 1 jeweils einmal durchlaufen wird
+		for(int i = 5; i > 0; i--) { // Schleife, die fuer jedes Schiff von 5 bis 1 jeweils einmal durchlaufen wird
 			int x = new Random().nextInt(10);
 			int y = new Random().nextInt(10);
 			boolean b = false;
 			while(b) {
-				if(matrix[x][y] == Feld.SCHIFF) {		// es wird gepr�ft, ob an der Stelle mit den zuf�lligen Koordinaten
+				if(matrix[x][y] == Feld.SCHIFF) {		// es wird geprueft, ob an der Stelle mit den zufaelligen Koordinaten
 					x = new Random().nextInt(10);		// bereits ein Schiff ist.  
 					y = new Random().nextInt(10);		// 
 				} else if(10 - x < i || 10 - y < i) {	// Nur wenn entweder 10 - x kleiner i oder

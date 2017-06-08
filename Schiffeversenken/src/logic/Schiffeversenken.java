@@ -26,7 +26,7 @@ public class Schiffeversenken {
 		peer = null;
 		
 		contr.zeigeIPAdresse(Peer.getIP());	// IP-Adresse wird unten in GUI angezeigt
-		contr.askForPeer(Peer.getIP());		// Benutzer wird gefragt, ob er neues Spiel er�ffnen will oder Spiel beitreten will
+		contr.askForPeer(Peer.getIP());		// Benutzer wird gefragt, ob er neues Spiel eroeffnen will oder Spiel beitreten will
 											// Je nach Eingabe wird ein Server- oder Client-Peer erzeugt
 		eigeneMap = new EigeneMap();
 		eigeneMap.schiffeSetzenAuto();
@@ -121,7 +121,7 @@ public class Schiffeversenken {
 							if(gegnMap.alleVersenkt()) {
 								System.out.println("Alle versenkt");
 								contr.spielendeAlert(true);
-								// Spiel zur�cksetzen
+								// Spiel zuruecksetzen
 								// evtl. neuer Verbindungsaufbau
 							}
 							zugAusfuehren();
@@ -136,7 +136,7 @@ public class Schiffeversenken {
 							if(gegnMap.alleVersenkt()) {
 								System.out.println("Alle versenkt");
 								contr.spielendeAlert(true);
-								// Spiel zur�cksetzen
+								// Spiel zuruecksetzen
 								// evtl. neuer Verbindungsaufbau
 							}
 							warten();
@@ -174,7 +174,7 @@ public class Schiffeversenken {
 						public void run() {
 							if(eigeneMap.alleVersenkt()) {
 								contr.spielendeAlert(false);
-								// Spiel zur�cksetzen
+								// Spiel zuruecksetzen
 								// evtl. neuer Verbindungsaufbau
 			               	 }
 							 warten();
@@ -189,7 +189,7 @@ public class Schiffeversenken {
 						public void run() {
 			               	 if(eigeneMap.alleVersenkt()) {
 								contr.spielendeAlert(false);
-								// Spiel zur�cksetzen
+								// Spiel zuruecksetzen
 								// evtl. neuer Verbindungsaufbau
 			               	 }
 			               	 zugAusfuehren();
