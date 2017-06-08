@@ -124,13 +124,6 @@ public class Controller extends JFrame{
 		spieldauerThread.start();
 	}
 
-	/*
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-	}
-	*/
-
 	public void paintGegnMap(Image image, int index) {
 		((Button)gegnMap.getChildren().get(index + 1)).setBackground(new Background(
 					new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT))); // Index + 1, da das erste Element der ObservableList
