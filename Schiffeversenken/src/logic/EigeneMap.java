@@ -41,12 +41,12 @@ public class EigeneMap extends Spielfeld {
 		// 1er Schiff
 		matrix[8][0] = Feld.SCHIFF;/*
 		
-		for(int i = 5; i > 0; i--) { // Schleife, die für jedes Schiff von 5 bis 1 jeweils einmal durchlaufen wird
+		for(int i = 5; i > 0; i--) { // Schleife, die fï¿½r jedes Schiff von 5 bis 1 jeweils einmal durchlaufen wird
 			int x = new Random().nextInt(10);
 			int y = new Random().nextInt(10);
 			boolean b = false;
 			while(b) {
-				if(matrix[x][y] == Feld.SCHIFF) {		// es wird geprüft, ob an der Stelle mit den zufälligen Koordinaten
+				if(matrix[x][y] == Feld.SCHIFF) {		// es wird geprï¿½ft, ob an der Stelle mit den zufï¿½lligen Koordinaten
 					x = new Random().nextInt(10);		// bereits ein Schiff ist.  
 					y = new Random().nextInt(10);		// 
 				} else if(10 - x < i || 10 - y < i) {	// Nur wenn entweder 10 - x kleiner i oder
@@ -58,43 +58,43 @@ public class EigeneMap extends Spielfeld {
 			}
 		}*/
 	}
-	public void SchiffSetzen( int Länge){
+	public void SchiffSetzen( int Laenge){
 		int x = new Random().nextInt(10);
 		int y = new Random().nextInt(10);
 			
 		if( matrix[x][y] == Feld.SCHIFF || matrix[x-1][y] == Feld.SCHIFF || matrix[x+1][y]== Feld.SCHIFF || matrix[x][y-1]== Feld.SCHIFF || matrix[x][y+1]== Feld.SCHIFF){
-			SchiffSetzen( Länge);
+			SchiffSetzen( Laenge);
 		}
 		else{
 				matrix[x][y]= Feld.SCHIFF;
 		}
 		
-		for(int i=1; i <= Länge;i++){
+		for(int i=1; i <= Laenge;i++){
 			int r;
 			r= new Random().nextInt(4);
 			
 			if(r==1 && matrix[x-i][y]==Feld.WASSER ){
-				for (int j=1; j<= Länge-1; j++){
+				for (int j=1; j<= Laenge-1; j++){
 					matrix[x-j][y]= Feld.SCHIFF;
 					return; 
 				}
 			}
 			else if(r==2 && matrix[x+i][y]==Feld.WASSER)
-				for (int j=1; j<= Länge-1; j++){
+				for (int j=1; j<= Laenge-1; j++){
 					matrix[x+j][y]= Feld.SCHIFF;
 					return; 
 				}
 			else if(r==3 && matrix[x][y-i]==Feld.WASSER)
-				for (int j=1; j<= Länge-1; j++){
+				for (int j=1; j<= Laenge-1; j++){
 					matrix[x][y-j]= Feld.SCHIFF;
 					return; 
 			}
 			else if(r==4 && matrix[x][y+i]==Feld.WASSER)
-				for (int j=1; j<= Länge-1; j++){
+				for (int j=1; j<= Laenge-1; j++){
 					matrix[x][y+j]= Feld.SCHIFF;
 					return; 
 				}
-			SchiffSetzen( Länge);
+			SchiffSetzen( Laenge);
 		}
 	}
 	

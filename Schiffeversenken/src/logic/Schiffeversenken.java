@@ -26,7 +26,7 @@ public class Schiffeversenken {
 		peer = null;
 		
 		contr.zeigeIPAdresse(Peer.getIP());	// IP-Adresse wird unten in GUI angezeigt
-		contr.askForPeer(Peer.getIP());		// Benutzer wird gefragt, ob er neues Spiel eröffnen will oder Spiel beitreten will
+		contr.askForPeer(Peer.getIP());		// Benutzer wird gefragt, ob er neues Spiel erï¿½ffnen will oder Spiel beitreten will
 											// Je nach Eingabe wird ein Server- oder Client-Peer erzeugt
 		eigeneMap = new EigeneMap();
 		eigeneMap.schiffeSetzenAuto();
@@ -42,7 +42,7 @@ public class Schiffeversenken {
          		contr.zeigeSpieldauer();
          		contr.buttonsSchalten(amZug);
         		if(amZug) {
-        			zugAusführen();
+        			zugAusfuehren();
         		} else {
         			warten();
         		}
@@ -96,7 +96,7 @@ public class Schiffeversenken {
 		}
 	}
 	
-	public void zugAusführen() {
+	public void zugAusfuehren() {
 		amZug = true;
 		contr.buttonsSchalten(amZug);
 		contr.setZugstatus("Sie sind am Zug");
@@ -121,10 +121,10 @@ public class Schiffeversenken {
 							if(gegnMap.alleVersenkt()) {
 								System.out.println("Alle versenkt");
 								contr.spielendeAlert(true);
-								// Spiel zurücksetzen
+								// Spiel zurï¿½cksetzen
 								// evtl. neuer Verbindungsaufbau
 							}
-							zugAusführen();
+							zugAusfuehren();
 						}
 					});					// GUI anzeigen, dass nochmal geschossen werden darf
 				} else {
@@ -136,7 +136,7 @@ public class Schiffeversenken {
 							if(gegnMap.alleVersenkt()) {
 								System.out.println("Alle versenkt");
 								contr.spielendeAlert(true);
-								// Spiel zurücksetzen
+								// Spiel zurï¿½cksetzen
 								// evtl. neuer Verbindungsaufbau
 							}
 							warten();
@@ -174,7 +174,7 @@ public class Schiffeversenken {
 						public void run() {
 							if(eigeneMap.alleVersenkt()) {
 								contr.spielendeAlert(false);
-								// Spiel zurücksetzen
+								// Spiel zurï¿½cksetzen
 								// evtl. neuer Verbindungsaufbau
 			               	 }
 							 warten();
@@ -189,10 +189,10 @@ public class Schiffeversenken {
 						public void run() {
 			               	 if(eigeneMap.alleVersenkt()) {
 								contr.spielendeAlert(false);
-								// Spiel zurücksetzen
+								// Spiel zurï¿½cksetzen
 								// evtl. neuer Verbindungsaufbau
 			               	 }
-			               	 zugAusführen();
+			               	 zugAusfuehren();
 						}
 					});
 				}
