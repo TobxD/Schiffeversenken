@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -36,13 +38,7 @@ public class Controller extends JFrame{
 				JButton button = new JButton();
 				//button.setOpacity(0.9);
 				button.setPreferredSize(new Dimension(50,50));
-				button.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent event) {
-						JButton button = (JButton)event.getSource();
-		            	ss.beschiessen(GridLayout.getColumnIndex(button), GridPane.getRowIndex(button));
-					}
-		        });
+				button.addActionListener(new ButtonListener(i,j));
 				gegnMap.add(button, i, j);
 			}
 		}
@@ -55,21 +51,23 @@ public class Controller extends JFrame{
 			}
 		}
 		
-		Task<Void> task = new Task<Void>() {
+		Runnable task = new Runnable() {
 			final DecimalFormat format = new DecimalFormat("00"); 
 			  @Override
-			  public Void call() throws Exception {
+			  public void run() {
 			    int i = 0;
 			    while (true) {
 			      final int finalI = i;
-			      Platform.runLater(new Runnable() {
+			      SwingUtilities.invokeLater(new Runnable() {
 			        @Override
 			        public void run() {
 			        	spieldauerLabel.setText("Spieldauer: " + format.format(finalI/60) + ":" + format.format(finalI%60) + " Min");
 			        }
 			      });
 			      i++;
-			      Thread.sleep(1000);
+			      try {
+					Thread.sleep(1000);
+			      } catch (InterruptedException e) {}
 			    }
 			  }
 			};
@@ -86,15 +84,15 @@ public class Controller extends JFrame{
 	public void askForPeer(String ipString) {
 		Object[] options = {"Neues Spiel", "Spiel beitreten"};
 		int option = JOptionPane.showOptionDialog(this,
-				"Neues Spiel eröffnen oder Spiel beitreten?",
+				"Neues Spiel erï¿½ffnen oder Spiel beitreten?",
 				"Schiffeversenken",
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, imgIcon,
 				options, null);
 		
 		if(option == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu können: " + ipString,
-					"IP-Adresse für Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
+			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu kï¿½nnen: " + ipString,
+					"IP-Adresse fï¿½r Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
 			ss.verbindungHerstellen(null);
 		} else {
 			askForIPDialog("");
@@ -126,10 +124,12 @@ public class Controller extends JFrame{
 		spieldauerThread.start();
 	}
 
+	/*
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 	}
+	*/
 
 	public void paintGegnMap(Image image, int index) {
 		((Button)gegnMap.getChildren().get(index + 1)).setBackground(new Background(
@@ -142,14 +142,8 @@ public class Controller extends JFrame{
 	}
 	
 	public void buttonsSchalten(boolean amZug) {
-		if(amZug) {
-			for(Node button : gegnMap.getChildren()) {
-				button.setDisable(false);
-			}
-		} else {
-			for(Node button : gegnMap.getChildren()) {
-				button.setDisable(true);
-			}
+		for(Component button : gegnMap.getComponents()) {
+			((JButton) button).setEnabled(amZug);
 		}
 	}
 	
@@ -181,4 +175,16 @@ public class Controller extends JFrame{
 			Platform.exit();
 		}
 	}
+	
+	class ButtonListener implements ActionListener{
+		int r, c;
+		public ButtonListener(int r, int c){
+			this.r = r;
+			this.c = c;
+		}
+		@Override
+		public void actionPerformed(ActionEvent event) {
+        	ss.beschiessen(c, r);
+		}
+    }
 }
