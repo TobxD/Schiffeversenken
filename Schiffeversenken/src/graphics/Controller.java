@@ -127,7 +127,7 @@ public class Controller extends JFrame{
 	}
 
 	public void paintGegnMap(Image image, int index) {
-		((Button)gegnMap.getChildren().get(index + 1)).setBackground(new Background(
+		((JButton)gegnMap.getChildren().get(index + 1)).setBackground(new Background(
 					new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT))); // Index + 1, da das erste Element der ObservableList
 	}					
 	// ein Objekt der Klasse Group ist und kein Button
