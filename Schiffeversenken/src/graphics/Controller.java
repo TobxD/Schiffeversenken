@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -33,6 +34,37 @@ public class Controller extends JFrame{
 	private JLabel loadingImageView;
 	
 	public Controller(){
+		JPanel eigeneMap = new JPanel();
+		eigeneMap.setLayout(new GridLayout(10,10));
+		JPanel gegnMap = new JPanel();
+		gegnMap.setLayout(new GridLayout(10,10));
+		
+		JLabel verbindungLabel = new JLabel();
+		JLabel ipLabel = new JLabel();
+		JLabel spieldauerLabel = new JLabel();
+		JLabel zugaufforderungLabel = new JLabel();
+		
+		JPanel south = new JPanel();
+		south.add(verbindungLabel);
+		south.add(ipLabel);
+		south.add(spieldauerLabel);
+		south.add(zugaufforderungLabel);
+		
+		JPanel left = new JPanel();
+		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+		left.add(new JLabel("Gegnerische Map"));
+		left.add(gegnMap);
+		JPanel right = new JPanel();
+		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+		right.add(new JLabel("Eigene Map"));
+		right.add(eigeneMap);
+		
+		JPanel center = new JPanel();
+		center.add(left);
+		center.add(right);
+		
+		JPanel borderPanel = (JPanel) this.getContentPane();
+		borderPanel.setLayout(new BorderLayout());
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 10; j++) {
 				JButton button = new JButton();
