@@ -32,8 +32,6 @@ public class Controller extends JFrame{
 	
 	private JLabel loadingImageView;
 	
-	// Test
-	
 	public Controller(){
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 10; j++) {
@@ -147,27 +145,27 @@ public class Controller extends JFrame{
 	}
 	
 	public void spielendeAlert(boolean gewonnen) {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Schiffeversenken");
+		Object[] options = {"Nochmal spielen" , "Beenden"};
+		int option = -1;
 		if(gewonnen) {
-			alert.setHeaderText("Sie haben gewonnen!");
+			option = JOptionPane.showOptionDialog(this,
+					"Sie haben gewonnen",
+					"Schiffeversenken",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, imgIcon,
+					options, null);
 		} else {
-			alert.setHeaderText("Sie haben verloren!");
+			option = JOptionPane.showOptionDialog(this,
+					"Sie haben gewonnen",
+					"Schiffeversenken",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, imgIcon,
+					options, null);
 		}
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("graphics/schiff.jpg"));
-
-		ButtonType buttonTypeOne = new ButtonType("Nochmal spielen");
-		ButtonType buttonTypeTwo = new ButtonType("Beenden");
-
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-
-		Optional<ButtonType> result = alert.showAndWait();
-		
-		if(result.get() == buttonTypeOne) {
+		if(option == JOptionPane.YES_OPTION) {
 			
 		} else {
-			Platform.exit();
+			System.exit(0);
 		}
 	}
 	
