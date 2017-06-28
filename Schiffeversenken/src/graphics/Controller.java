@@ -199,14 +199,14 @@ public class Controller extends JFrame{
 					options, null);
 		} else {
 			option = JOptionPane.showOptionDialog(this,
-					"Sie haben gewonnen",
+					"Sie haben verloren",
 					"Schiffeversenken",
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, imgIcon,
 					options, null);
 		}
 		if(option == JOptionPane.YES_OPTION) {
-			
+			//TODO spiel neu starten
 		} else {
 			System.exit(0);
 		}
