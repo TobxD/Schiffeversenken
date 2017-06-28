@@ -20,7 +20,7 @@ public class GegnerischeMap extends Spielfeld {
 	public void paint(Controller contr) {
 		for(int y = 0; y < 10; y++) {
 			for(int x = 0; x < 10; x++) {
-				contr.paintGegnMap(matrix[y][x].getImage(), x * 10 + y);
+				contr.paintGegnMap(matrix[y][x].getImage(), x, y);
 			}
 		}
 	}

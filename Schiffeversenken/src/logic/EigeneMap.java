@@ -59,42 +59,65 @@ public class EigeneMap extends Spielfeld {
 		}*/
 	}
 	public void SchiffSetzen( int Laenge){
+
 		int x = new Random().nextInt(10);
 		int y = new Random().nextInt(10);
-			
-		if( matrix[x][y] == Feld.SCHIFF || matrix[x-1][y] == Feld.SCHIFF || matrix[x+1][y]== Feld.SCHIFF || matrix[x][y-1]== Feld.SCHIFF || matrix[x][y+1]== Feld.SCHIFF){
-			SchiffSetzen( Laenge);
-		}
-		else{
-				matrix[x][y]= Feld.SCHIFF;
+		
+		for(int x1 =-1; x1<=1; x1++)
+		{
+			for(int y1 =-1; y1<=1;y1++)
+			{
+				if(matrix[x1][y1] == Feld.SCHIFF)
+				{
+					SchiffSetzen(Laenge);
+				}
+			}
 		}
 		
-		for(int i=1; i <= Laenge;i++){
-			int r;
-			r= new Random().nextInt(4);
-			
-			if(r==1 && matrix[x-i][y]==Feld.WASSER ){
-				for (int j=1; j<= Laenge-1; j++){
-					matrix[x-j][y]= Feld.SCHIFF;
-					return; 
+		boolean geht = true;
+		
+		for(int x1 = x-Laenge; x1<=x+Laenge; x1++ )
+		{
+			for(int y1=-1; y1<=1;y1++)
+			{
+				if ( matrix[x1][y1]== Feld.SCHIFF)
+				{
+					geht = false;
 				}
 			}
-			else if(r==2 && matrix[x+i][y]==Feld.WASSER)
-				for (int j=1; j<= Laenge-1; j++){
-					matrix[x+j][y]= Feld.SCHIFF;
-					return; 
+		}
+		
+		int b=0;
+		for (int x1 = x-Laenge; x1<=x+Laenge; x1++ )
+		{
+				if (geht ==true)
+				{
+					b=b+1;
 				}
-			else if(r==3 && matrix[x][y-i]==Feld.WASSER)
-				for (int j=1; j<= Laenge-1; j++){
-					matrix[x][y-j]= Feld.SCHIFF;
-					return; 
+				else
+				{
+					b=0;
+				}
+				
+				if (b==Laenge)
+				{
+					for(int x11 = 0; x11<=Laenge; x11++ ) 
+					{
+						matrix[x11][y]=Feld.SCHIFF;
+					}
+					return;
+				}
+		}
+		
+		for(int x1=-1; x1<=1; x1++)
+		{
+			for(int y1 = y-Laenge; y1<=y+Laenge ;y1++)
+			{
+				if ( matrix[x1][y1]== Feld.SCHIFF)
+				{
+					geht = false;
+				}
 			}
-			else if(r==4 && matrix[x][y+i]==Feld.WASSER)
-				for (int j=1; j<= Laenge-1; j++){
-					matrix[x][y+j]= Feld.SCHIFF;
-					return; 
-				}
-			SchiffSetzen( Laenge);
 		}
 	}
 	
@@ -102,7 +125,7 @@ public class EigeneMap extends Spielfeld {
 	public void paint(Controller contr) {
 		for(int y = 0; y < 10; y++) {
 			for(int x = 0; x < 10; x++) {
-				contr.paintEigeneMap(matrix[x][y].getImage(), x * 10 + y);
+				contr.paintEigeneMap(matrix[x][y].getImage(), x, y);
 			}
 		}
 	}

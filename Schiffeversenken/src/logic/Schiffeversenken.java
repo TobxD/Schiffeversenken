@@ -17,7 +17,7 @@ public class Schiffeversenken {
 	private boolean amZug;
 	
 	public static void main(String[]args) {
-		Main.main(null);
+		new Schiffeversenken(new Controller());
 	}
 	
 	public Schiffeversenken(Controller contr) {
