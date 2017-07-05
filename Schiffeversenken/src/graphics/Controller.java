@@ -3,6 +3,7 @@ package graphics;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -51,6 +52,7 @@ public class Controller extends JFrame{
 		south.add(ipLabel);
 		south.add(spieldauerLabel);
 		south.add(zugaufforderungLabel);
+		south.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		JPanel left = new JPanel();
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
