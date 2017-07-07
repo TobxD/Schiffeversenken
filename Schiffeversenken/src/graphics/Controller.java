@@ -183,7 +183,7 @@ public class Controller extends JFrame{
 	
 	public void spielendeAlert(boolean gewonnen) {
 		Object[] options = {"Nochmal spielen" , "Beenden"};
-		int option = -1;
+		int option;
 		if(gewonnen) {
 			option = JOptionPane.showOptionDialog(this,
 					"Sie haben gewonnen",
