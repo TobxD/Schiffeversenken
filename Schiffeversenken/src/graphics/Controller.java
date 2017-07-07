@@ -127,15 +127,15 @@ public class Controller extends JFrame{
 	public void askForPeer(String ipString) {
 		Object[] options = {"Neues Spiel", "Spiel beitreten"};
 		int option = JOptionPane.showOptionDialog(this,
-				"Neues Spiel er�ffnen oder Spiel beitreten?",
+				"Neues Spiel er\u00f6ffnen oder Spiel beitreten?",
 				"Schiffeversenken",
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, imgIcon,
 				options, null);
 		
 		if(option == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu k�nnen: " + ipString,
-					"IP-Adresse f�r Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
+			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu k\u00f6nnen: " + ipString,
+					"IP-Adresse f\u00fcr Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
 			ss.verbindungHerstellen(null);
 		} else {
 			askForIPDialog("");
@@ -145,6 +145,7 @@ public class Controller extends JFrame{
 	private void askForIPDialog(String hinweis) {
 		String ip = (String) JOptionPane.showInputDialog(this, "Bitte gib eine IPv4-Adresse (mit Punkten) ein, um dich mit einem anderen Spiel zu verbinden:" + hinweis,
 				"IP-Adresse", JOptionPane.PLAIN_MESSAGE, imgIcon, null, null);
+		System.out.println(ss.proofIP(ip));
 		if(ip.isEmpty()) {
 			askForIPDialog("\nHinweis: IP-Adresse eingeben");
 		} else if (ss.proofIP(ip)){
