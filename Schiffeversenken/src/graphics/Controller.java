@@ -1,20 +1,13 @@
 package graphics;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ResourceBundle;
-
 import logic.Schiffeversenken;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Controller extends JFrame{
@@ -104,7 +97,7 @@ public class Controller extends JFrame{
 			      SwingUtilities.invokeLater(new Runnable() {
 			        @Override
 			        public void run() {
-			        	//spieldauerLabel.setText("Spieldauer: " + format.format(finalI/60) + ":" + format.format(finalI%60) + " Min");
+			        	spieldauerLabel.setText("Spieldauer: " + format.format(finalI/60) + ":" + format.format(finalI%60) + " Min");
 			        }
 			      });
 			      i++;
