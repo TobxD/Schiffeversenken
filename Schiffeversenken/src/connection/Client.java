@@ -41,7 +41,6 @@ public class Client extends Peer {
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
-            System.out.println("Client: Verbindung hergestellt und Streams erzeugt");
             ss.verbindungHergestellt();
             return true;
         } catch (UnknownHostException e) { 

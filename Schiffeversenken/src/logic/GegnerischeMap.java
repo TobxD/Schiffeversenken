@@ -24,4 +24,14 @@ public class GegnerischeMap extends Spielfeld {
 			}
 		}
 	}
+	
+	public boolean wurdeBeschossen(int x, int y) {
+		if(matrix[y][x] == Feld.TREFFER) {
+			return true;
+		} else if(matrix[y][x] == Feld.NIETE) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

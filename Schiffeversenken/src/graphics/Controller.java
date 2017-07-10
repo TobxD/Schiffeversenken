@@ -68,6 +68,7 @@ public class Controller extends JFrame{
 		
 		this.setTitle("Schiffeversenken");
 		this.setIconImage(imgIcon.getImage());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 	    this.setVisible(true);
 

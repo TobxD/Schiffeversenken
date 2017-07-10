@@ -8,6 +8,11 @@ import javax.swing.SwingUtilities;
 import connection.*;
 import graphics.*;
 
+/**
+ * Hauptklasse des Spiels.
+ * @author Dennis
+ */
+
 public class Schiffeversenken {
 	
 	private EigeneMap eigeneMap;
@@ -29,12 +34,16 @@ public class Schiffeversenken {
 		contr.askForPeer(Peer.getIP());		// Benutzer wird gefragt, ob er neues Spiel eroeffnen will oder Spiel beitreten will
 											// Je nach Eingabe wird ein Server- oder Client-Peer erzeugt
 		eigeneMap = new EigeneMap();
-		eigeneMap.schiffeSetzenAuto();
+		eigeneMap.schiffeSetzenAuto();		// Schiffe werden zufällig gesetzt
 		gegnMap = new GegnerischeMap();
 		eigeneMap.paint(contr);	// Maps werden gezeichnet
 		gegnMap.paint(contr);
 	}
 	
+	/**
+	 * Diese Methode wird von den Peer-Unterklassen aufgerufen, wenn die Verbindung erfolgreich 
+	 * aufgebaut wurde. 
+	 */
 	public void verbindungHergestellt() {
 		Thread thread = new Thread() {
 			@Override public void run() {
@@ -46,7 +55,6 @@ public class Schiffeversenken {
         		} else {
         			warten();
         		}
-        		this.interrupt();
 			}
 		};
 		thread.setDaemon(true);
@@ -73,7 +81,6 @@ public class Schiffeversenken {
 					public void run() {
 						aufVerbindungWarten();
 						((Server) peer).connect();
-						this.interrupt();
 					}
 				};
 				thread.start();
@@ -85,7 +92,6 @@ public class Schiffeversenken {
 					public void run() {
 						aufVerbindungWarten();
 						((Client) peer).connect();
-						this.interrupt();
 					}
 				};
 				thread.start();
@@ -102,53 +108,54 @@ public class Schiffeversenken {
 		contr.setZugstatus("Sie sind am Zug");
 	}
 	
+	/**
+	 * Diese Methode wird aufgerufen, wenn der Spieler einen Schuss abgegeben hat. Für die Anweisungen
+	 * wird ein Thread eröffnet, damit das Spiel beim Warten auf die Antwort des Gegners nicht einfriert.
+	 * Anweisungen, die graphische Objekte verändern, werden in einem extra Swing-Thread aufgerufen.
+	 * <p>
+	 * Je nachdem, ob der Schuss erfolgreich war oder nicht, werden sowohl die GUI als auch die
+	 * Daten aktualisiert.
+	 */
 	public void beschiessen(final int x, final int y) {
-		Thread thread = new Thread() {
-			@Override public void run() {
-				try {
-					peer.sendReq(new RequestProtocol(x,y));
-				} catch (IOException e) {
-					// Verbindung unterbrochen, Hinweis auf GUI, erneuter Verbindungsaufbau
-					e.printStackTrace();
-				}
-				ResponseProtocol res = peer.readRes();
-				if(res.isGetroffen()) {
-					gegnMap.eintragen(x, y, true);	// Gegnerische Map Matrix aktualisieren
-					gegnMap.paint(contr);			// Gegnerische Map grafisch aktualisieren
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override 
-						public void run() {
-							if(gegnMap.alleVersenkt()) {
-								System.out.println("Alle versenkt");
-								contr.spielendeAlert(true);
-								// Spiel zuruecksetzen
-								// evtl. neuer Verbindungsaufbau
-							}
-							zugAusfuehren();
+		if(!gegnMap.wurdeBeschossen(x, y)) { 	// wenn das Feld bereits noch nicht beschossen wurde,
+			Thread thread = new Thread() {		// wird der Anweisungsblock der if-Schleife durchlaufen
+				@Override public void run() {
+					try {
+						peer.sendReq(new RequestProtocol(x,y));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					ResponseProtocol res = peer.readRes();
+					if(res.isGetroffen()) {
+						gegnMap.eintragen(x, y, true);	// Gegnerische Map: Matrix aktualisieren (Treffer)
+						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
+						if(gegnMap.alleVersenkt()) {
+							spielendeAnzeigen();
 						}
-					});					// GUI anzeigen, dass nochmal geschossen werden darf
-				} else {
-					gegnMap.eintragen(x, y, false);	// gegnMap aktualisieren (Niete)
-					gegnMap.paint(contr);			// Gegnerische Map grafisch aktualisieren
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override 
-						public void run() {
-							if(gegnMap.alleVersenkt()) {
-								System.out.println("Alle versenkt");
-								contr.spielendeAlert(true);
-								// Spiel zuruecksetzen
-								// evtl. neuer Verbindungsaufbau
-							}
-							warten();
+						zugAusfuehren(); // erneut Zug ausführen
+					} else {
+						gegnMap.eintragen(x, y, false);	// Gegnerische Map: Matrix aktualisieren (Niete)
+						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
+						if(gegnMap.alleVersenkt()) {
+							spielendeAnzeigen();
 						}
-					});
+						warten();	// auf Gegner warten
+					}
 				}
-			}
-		};
-		thread.setDaemon(true);
-		thread.start();
+			};
+			thread.setDaemon(true);
+			thread.start();
+		}
 	}
 	
+	/**
+	 * Diese Methode wird aufgerufen, wenn der Gegner gerade am Zug ist. Für die Anweisungen
+	 * wird ein Thread eröffnet, damit das Spiel beim Warten auf die Antwort des Gegners nicht einfriert.
+	 * Anweisungen, die graphische Objekte verändern, werden in einem extra Swing-Thread aufgerufen.
+	 * <p>
+	 * Je nachdem, ob der Schuss des Gegners erfolgreich war, wird weiter gewartet oder man ist selbst
+	 * am Zug.
+	 */
 	public void warten() {
 		Thread thread = new Thread() {
 			@Override public void run() {
@@ -156,45 +163,31 @@ public class Schiffeversenken {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override 
 					public void run() {
-						contr.buttonsSchalten(amZug);
+						contr.buttonsSchalten(amZug);					// GUI wird aktualisiert
 						contr.setZugstatus("Der Gegner ist am Zug");
 					}
 				});
-				RequestProtocol req = peer.readReq();
+				RequestProtocol req = peer.readReq();	// Protokoll wird gelesen und ausgewertet
 				boolean istGetroffen = eigeneMap.istGetroffen(req.getX(), req.getY());
 				try {
-					peer.sendRes(new ResponseProtocol(istGetroffen));
+					peer.sendRes(new ResponseProtocol(istGetroffen));	// Antwort wird gesendet
 				} catch (IOException e) {
-					// Verbindung unterbrochen, Hinweis auf GUI, erneuter Verbindungsaufbau
+					e.printStackTrace();
 				}
 				if(istGetroffen) {
-					eigeneMap.paint(contr);
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override 
-						public void run() {
-							if(eigeneMap.alleVersenkt()) {
-								contr.spielendeAlert(false);
-								// Spiel zuruecksetzen
-								// evtl. neuer Verbindungsaufbau
-			               	 }
-							 warten();
-						}
-			         });
-					// GUI anzeigen, dass nochmal gewartet werden muss bzw. der Gegner am Zug ist
+					eigeneMap.paint(contr);	// GUI: Eigene Map wird neu gezeichnet
+					if(eigeneMap.alleVersenkt()) {
+						spielendeAnzeigen();
+	               	 }
+					 warten();
 				} else {
 					amZug = true;
 					eigeneMap.paint(contr);
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override 
-						public void run() {
-			               	 if(eigeneMap.alleVersenkt()) {
-								contr.spielendeAlert(false);
-								// Spiel zuruecksetzen
-								// evtl. neuer Verbindungsaufbau
-			               	 }
-			               	 zugAusfuehren();
-						}
-					});
+					if(eigeneMap.alleVersenkt()) {
+						spielendeAnzeigen();
+	               	}
+	               	zugAusfuehren();
+					
 				}
 			}
 		};
@@ -202,11 +195,20 @@ public class Schiffeversenken {
 		thread.start();
 	}
 	
+	private void spielendeAnzeigen() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override 
+			public void run() {
+				contr.spielendeAlert(false);
+			}
+		});
+	}
+	
 	public boolean proofIP(String ipString) {
 		return Peer.proofIP(ipString);
 	}
 	
 	public void verbindungUnterbrochen() {
-		//GUI "einfrieren" lassen
+		// TODO
 	}
 }
