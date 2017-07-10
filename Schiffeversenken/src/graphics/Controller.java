@@ -7,12 +7,15 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.DecimalFormat;
 import logic.Schiffeversenken;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Controller extends JFrame{
-	private ImageIcon imgIcon = new ImageIcon("graphics/schiff.jpg");
+	private ImageIcon imgIcon = new ImageIcon("icon.jpg");
 	
 	private Schiffeversenken ss;
 	private Thread spieldauerThread;
@@ -26,8 +29,6 @@ public class Controller extends JFrame{
 	private JPanel gegnMap;
 	private JLabel[][] eigeneLabel = new JLabel[10][10];
 	private JButton[][] gegnButtons = new JButton[10][10];
-	
-	private JLabel loadingImageView;
 	
 	public Controller(){
 		eigeneMap = new JPanel();
@@ -66,6 +67,7 @@ public class Controller extends JFrame{
 		borderPanel.add(center, BorderLayout.CENTER);
 		
 		this.setTitle("Schiffeversenken");
+		this.setIconImage(imgIcon.getImage());
 		this.pack();
 	    this.setVisible(true);
 

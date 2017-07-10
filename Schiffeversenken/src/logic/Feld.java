@@ -9,19 +9,14 @@ import javax.imageio.ImageIO;
 public enum Feld {
 	
 	SCHIFF("schiff.png"), TREFFER("treffer.png"), NIETE("niete.png"), WASSER("wasser.png");
-	//SCHIFF("."), TREFFER("."), NIETE("."), WASSER(".");
 
 		   private Image image;
 
 		   Feld(String path) {
 				try {
-					/*for(String s : new File(path).list()){
-						System.out.println(s);
-					}*/
 					this.image = ImageIO.read(new File(path));
 				} catch (IOException e) {
-					System.out.println(new File(path).getAbsolutePath());
-					//System.out.println(new File(path).exists());
+					System.err.println(new File(path).getAbsolutePath());
 					e.printStackTrace();
 				} 
 		   }

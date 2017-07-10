@@ -9,6 +9,12 @@ import java.net.UnknownHostException;
 
 import logic.Schiffeversenken;
 
+/**
+ * Klasse zur Repr‰sentation der Client-Seite der Verbindung.
+ * 
+ * @author Dennis Pollithy
+ */
+
 public class Client extends Peer {
 	
 	private final String ipString;
@@ -18,6 +24,13 @@ public class Client extends Peer {
 		this.ipString = ipString;
     } 
 	
+	/**
+	 * Methode zum Verbinden des Clients an den Server mittels der vom Benutzer eingegebenen
+	 * IP-Adresse und des vorgegeben Ports. Die IO-Streams zum Datenaustausch werden nach der
+	 * erfolgreichen Verbindung erzeugt.
+	 * Anschlieﬂend werden in der Hauptklasse durch den Aufruf der Methode verbindungHergestellt() 
+	 * die auf der Verbindung aufbauenden Schritte eingeleitet.
+	 */
 	public boolean connect() {
 		try { 
             socket = new Socket(InetAddress.getByName(ipString), 21235);
@@ -32,10 +45,10 @@ public class Client extends Peer {
             ss.verbindungHergestellt();
             return true;
         } catch (UnknownHostException e) { 
-            System.out.println("Unbekannter Server");
+            System.err.println("Unbekannter Server");
             return false;
         } catch (IOException e) { 
-            System.out.println("IO-Probleme..."); 
+            System.err.println("IO-Probleme..."); 
             this.disconnect();
             ss.verbindungHerstellen(ipString);
             return false;

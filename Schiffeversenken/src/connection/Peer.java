@@ -9,6 +9,13 @@ import java.net.UnknownHostException;
 
 import logic.Schiffeversenken;
 
+/**
+ * Diese Klasse repräsentiert eine Seite der Spielverbindung. Sie bietet die Methoden zum Lesen
+ * und Schreiben von Anfragen bzw. Antworten durch die IO-Streams.
+ * 
+ * @author Dennis Pollithy
+ */
+
 public abstract class Peer {
 
 	protected Schiffeversenken ss;
@@ -43,13 +50,14 @@ public abstract class Peer {
 	}
     
     public ResponseProtocol readRes() {
-    	ResponseProtocol res = null;;
+    	ResponseProtocol res = null;
 		try {
 			res = (ResponseProtocol)in.readObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			System.err.println("IO-Exception");
 			e.printStackTrace();
 			return null;
 		}
@@ -61,20 +69,26 @@ public abstract class Peer {
     	try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Host unbekannt");
 			e.printStackTrace();
 		}
 		return ip;
     }
-    
+    /**
+     * Diese Methode überprüft, ob der Client erreichbar ist.
+     * 
+     * @param	die zu überprüfende IP-Adresse
+     */
     public static boolean proofIP(String ipString) {
     	try {
-			return InetAddress.getByName(ipString).isReachable(10000);
+			return InetAddress.getByName(ipString).isReachable(3000);
 		} catch (UnknownHostException e) {
-			System.out.println("unknown host");
+			System.err.println("Host unbekannt");
+			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			System.out.println("IO exception");
+			System.err.println("IO-Exception");
+			e.printStackTrace();
 			return false;
 		}
     }

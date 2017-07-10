@@ -7,6 +7,11 @@ import java.net.ServerSocket;
 
 import logic.Schiffeversenken;
 
+/**
+ * Klasse zur Repräsentation der Server-Seite der Verbindung.
+ * 
+ * @author Dennis Pollithy
+ */
 public class Server extends Peer {
 
 	private final ServerSocket server; 
@@ -16,11 +21,14 @@ public class Server extends Peer {
         server = new ServerSocket(21235);
         socket = null;
     } 
-
+    
+    /**
+	 * Methode zum Erzeugen einer Socket, sobald der Client am abgehörten Port verbindet.
+	 * Die IO-Streams zum Datenaustausch werden nach der erfolgreichen Verbindung erzeugt.
+	 */
     public boolean connect() {
     	try {
     		while(socket == null) {
-    			System.out.println("Server| Wartet auf Verbindung");
     			socket = server.accept();
     			try {
     				out = new ObjectOutputStream(socket.getOutputStream());
@@ -28,12 +36,12 @@ public class Server extends Peer {
     			} catch (IOException e) {
     				connect();
     			}
-    			System.out.println("Server| Verbindung hergestellt und Streams erzeugt");
     			ss.verbindungHergestellt();
     		}
     		return true;
     	} catch (IOException e) {
-    		connect();
+    		System.err.println("IO-Exception");
+    		e.printStackTrace();
     		return false;
     	}
     } 
