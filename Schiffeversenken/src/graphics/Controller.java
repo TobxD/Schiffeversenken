@@ -1,21 +1,14 @@
 package graphics;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ResourceBundle;
-
 import logic.Schiffeversenken;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Controller extends JFrame{
@@ -106,7 +99,7 @@ public class Controller extends JFrame{
 			      SwingUtilities.invokeLater(new Runnable() {
 			        @Override
 			        public void run() {
-			        	//spieldauerLabel.setText("Spieldauer: " + format.format(finalI/60) + ":" + format.format(finalI%60) + " Min");
+			        	spieldauerLabel.setText("Spieldauer: " + format.format(finalI/60) + ":" + format.format(finalI%60) + " Min");
 			        }
 			      });
 			      i++;
@@ -129,15 +122,15 @@ public class Controller extends JFrame{
 	public void askForPeer(String ipString) {
 		Object[] options = {"Neues Spiel", "Spiel beitreten"};
 		int option = JOptionPane.showOptionDialog(this,
-				"Neues Spiel er�ffnen oder Spiel beitreten?",
+				"Neues Spiel er\u00f6ffnen oder Spiel beitreten?",
 				"Schiffeversenken",
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, imgIcon,
 				options, null);
 		
 		if(option == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu k�nnen: " + ipString,
-					"IP-Adresse f�r Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
+			JOptionPane.showMessageDialog(this, "Diese Adresse auf anderem Computer eingeben, um verbinden zu k\u00f6nnen: " + ipString,
+					"IP-Adresse f\u00fcr Client", JOptionPane.INFORMATION_MESSAGE, imgIcon);
 			ss.verbindungHerstellen(null);
 		} else {
 			askForIPDialog("");
@@ -147,6 +140,7 @@ public class Controller extends JFrame{
 	private void askForIPDialog(String hinweis) {
 		String ip = (String) JOptionPane.showInputDialog(this, "Bitte gib eine IPv4-Adresse (mit Punkten) ein, um dich mit einem anderen Spiel zu verbinden:" + hinweis,
 				"IP-Adresse", JOptionPane.PLAIN_MESSAGE, imgIcon, null, null);
+		System.out.println(ss.proofIP(ip));
 		if(ip.isEmpty()) {
 			askForIPDialog("\nHinweis: IP-Adresse eingeben");
 		} else if (ss.proofIP(ip)){
@@ -191,7 +185,7 @@ public class Controller extends JFrame{
 	
 	public void spielendeAlert(boolean gewonnen) {
 		Object[] options = {"Nochmal spielen" , "Beenden"};
-		int option = -1;
+		int option;
 		if(gewonnen) {
 			option = JOptionPane.showOptionDialog(this,
 					"Sie haben gewonnen",
@@ -201,14 +195,14 @@ public class Controller extends JFrame{
 					options, null);
 		} else {
 			option = JOptionPane.showOptionDialog(this,
-					"Sie haben gewonnen",
+					"Sie haben verloren",
 					"Schiffeversenken",
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, imgIcon,
 					options, null);
 		}
 		if(option == JOptionPane.YES_OPTION) {
-			
+			//TODO spiel neu starten
 		} else {
 			System.exit(0);
 		}

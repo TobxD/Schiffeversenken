@@ -69,10 +69,12 @@ public abstract class Peer {
     
     public static boolean proofIP(String ipString) {
     	try {
-			return InetAddress.getByName(ipString).isReachable(1000);
+			return InetAddress.getByName(ipString).isReachable(10000);
 		} catch (UnknownHostException e) {
+			System.out.println("unknown host");
 			return false;
 		} catch (IOException e) {
+			System.out.println("IO exception");
 			return false;
 		}
     }
