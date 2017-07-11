@@ -10,7 +10,6 @@ import graphics.*;
 
 /**
  * Hauptklasse des Spiels.
- * @author Dennis
  */
 
 public class Schiffeversenken {

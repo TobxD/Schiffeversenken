@@ -66,6 +66,8 @@ public class Controller extends JFrame{
 		borderPanel.add(south, BorderLayout.SOUTH);
 		borderPanel.add(center, BorderLayout.CENTER);
 		
+
+		this.setMinimumSize(new Dimension(1100, 600));
 		this.setTitle("Schiffeversenken");
 		this.setIconImage(imgIcon.getImage());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
