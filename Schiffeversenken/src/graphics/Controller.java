@@ -208,6 +208,7 @@ public class Controller extends JFrame{
 		}
 		if(option == JOptionPane.YES_OPTION) {
 			//TODO spiel neu starten
+			System.exit(0);
 		} else {
 			System.exit(0);
 		}

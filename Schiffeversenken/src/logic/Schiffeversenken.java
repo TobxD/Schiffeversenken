@@ -129,14 +129,14 @@ public class Schiffeversenken {
 						gegnMap.eintragen(x, y, true);	// Gegnerische Map: Matrix aktualisieren (Treffer)
 						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
 						if(gegnMap.alleVersenkt()) {
-							spielendeAnzeigen();
+							spielendeAnzeigen(true);
 						}
 						zugAusfuehren(); // erneut Zug ausführen
 					} else {
 						gegnMap.eintragen(x, y, false);	// Gegnerische Map: Matrix aktualisieren (Niete)
 						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
 						if(gegnMap.alleVersenkt()) {
-							spielendeAnzeigen();
+							spielendeAnzeigen(true);
 						}
 						warten();	// auf Gegner warten
 					}
@@ -176,14 +176,14 @@ public class Schiffeversenken {
 				if(istGetroffen) {
 					eigeneMap.paint(contr);	// GUI: Eigene Map wird neu gezeichnet
 					if(eigeneMap.alleVersenkt()) {
-						spielendeAnzeigen();
+						spielendeAnzeigen(false);
 	               	 }
 					 warten();
 				} else {
 					amZug = true;
 					eigeneMap.paint(contr);
 					if(eigeneMap.alleVersenkt()) {
-						spielendeAnzeigen();
+						spielendeAnzeigen(false);
 	               	}
 	               	zugAusfuehren();
 					
@@ -194,11 +194,11 @@ public class Schiffeversenken {
 		thread.start();
 	}
 	
-	private void spielendeAnzeigen() {
+	private void spielendeAnzeigen(final boolean gewonnen) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override 
 			public void run() {
-				contr.spielendeAlert(false);
+				contr.spielendeAlert(gewonnen);
 			}
 		});
 	}
