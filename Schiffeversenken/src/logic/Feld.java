@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public enum Feld {
 	
-	SCHIFF("schiff.png"), TREFFER("treffer.png"), NIETE("niete.png"), WASSER("wasser.png");
+	SCHIFF("resources/schiff.png"), TREFFER("resources/treffer.png"), NIETE("resources/niete.png"), WASSER("resources/wasser.png");
 
 		   private Image image;
 

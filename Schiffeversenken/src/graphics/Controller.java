@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Controller extends JFrame{
-	private ImageIcon imgIcon = new ImageIcon("icon.jpg");
+	private ImageIcon imgIcon = new ImageIcon("resources/icon.jpg");
 	
 	private Schiffeversenken ss;
 	private Thread spieldauerThread;
