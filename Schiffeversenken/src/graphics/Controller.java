@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DecimalFormat;
+
 import logic.Schiffeversenken;
 
 import javax.imageio.ImageIO;
@@ -42,6 +44,7 @@ public class Controller extends JFrame{
 		zugaufforderungLabel = new JLabel();
 		
 		JPanel south = new JPanel();
+		south.setBackground(Color.WHITE);
 		south.add(verbindungLabel);
 		south.add(ipLabel);
 		south.add(spieldauerLabel);
@@ -49,24 +52,27 @@ public class Controller extends JFrame{
 		south.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		JPanel left = new JPanel();
+		left.setBackground(Color.WHITE);
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		left.add(new JLabel("Gegnerische Map"));
 		left.add(gegnMap);
 		JPanel right = new JPanel();
+		right.setBackground(Color.WHITE);
 		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
 		right.add(new JLabel("Eigene Map"));
 		right.add(eigeneMap);
 		
 		JPanel center = new JPanel();
+		center.setBackground(Color.WHITE);
 		center.add(left);
 		center.add(right);
 		
 		JPanel borderPanel = (JPanel) this.getContentPane();
+		borderPanel.setBackground(Color.WHITE);
 		borderPanel.setLayout(new BorderLayout());
 		borderPanel.add(south, BorderLayout.SOUTH);
 		borderPanel.add(center, BorderLayout.CENTER);
 		
-
 		this.setMinimumSize(new Dimension(1100, 600));
 		this.setTitle("Schiffeversenken");
 		this.setIconImage(imgIcon.getImage());
@@ -110,7 +116,9 @@ public class Controller extends JFrame{
 			      i++;
 			      try {
 					Thread.sleep(1000);
-			      } catch (InterruptedException e) {}
+			      } catch (InterruptedException e) {
+			    	  e.printStackTrace();
+			      }
 			    }
 			  }
 			};
@@ -155,11 +163,11 @@ public class Controller extends JFrame{
 		}
 	}
 	
-	public void zeigeVerbindungsstatus(String status) {
+	public void zeigeVerbindungsstatus(final String status) {
 		verbindungLabel.setText("Verbindung: " + status);
 	}
 	
-	public void zeigeIPAdresse(String ip) {
+	public void zeigeIPAdresse(final String ip) {
 		ipLabel.setText("IP-Adresse: " + ip);
 	}
 	
@@ -170,7 +178,6 @@ public class Controller extends JFrame{
 	public void paintGegnMap(Image image, int x, int y) {
 		gegnButtons[y][x].setIcon(new ImageIcon(image));
 	}
-	// ein Objekt der Klasse Group ist und kein Button
 
 	public void paintEigeneMap(Image image, int x, int y) {
 		eigeneLabel[y][x].setIcon(new ImageIcon(image));
@@ -189,7 +196,7 @@ public class Controller extends JFrame{
 	}
 	
 	public void spielendeAlert(boolean gewonnen) {
-		Object[] options = {"Nochmal spielen" , "Beenden"};
+		Object[] options = {"Nochmal spielen(Beenden)" , "Beenden"};
 		int option;
 		if(gewonnen) {
 			option = JOptionPane.showOptionDialog(this,
@@ -207,7 +214,7 @@ public class Controller extends JFrame{
 					options, null);
 		}
 		if(option == JOptionPane.YES_OPTION) {
-			//TODO spiel neu starten
+			//TODO spiel neu starten, Button "Nochmal spielen" anpassen
 			System.exit(0);
 		} else {
 			System.exit(0);

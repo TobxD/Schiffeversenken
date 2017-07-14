@@ -39,7 +39,6 @@ public abstract class Peer {
 		try {
 			req = (RequestProtocol)in.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 		return req;
@@ -54,11 +53,8 @@ public abstract class Peer {
 		try {
 			res = (ResponseProtocol)in.readObject();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
-			System.err.println("IO-Exception");
-			e.printStackTrace();
 			return null;
 		}
 		return res;
@@ -69,7 +65,6 @@ public abstract class Peer {
     	try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			System.err.println("Host unbekannt");
 			e.printStackTrace();
 		}
 		return ip;
@@ -83,11 +78,9 @@ public abstract class Peer {
     	try {
 			return InetAddress.getByName(ipString).isReachable(3000);
 		} catch (UnknownHostException e) {
-			System.err.println("Host unbekannt");
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			System.err.println("IO-Exception");
 			e.printStackTrace();
 			return false;
 		}

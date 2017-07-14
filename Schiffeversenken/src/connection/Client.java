@@ -27,7 +27,7 @@ public class Client extends Peer {
 	/**
 	 * Methode zum Verbinden des Clients an den Server mittels der vom Benutzer eingegebenen
 	 * IP-Adresse und des vorgegeben Ports. Die IO-Streams zum Datenaustausch werden nach der
-	 * erfolgreichen Verbindung erzeugt.
+	 * erfolgreichen Verbindung erzeugt.<br>
 	 * Anschlieﬂend werden in der Hauptklasse durch den Aufruf der Methode verbindungHergestellt() 
 	 * die auf der Verbindung aufbauenden Schritte eingeleitet.
 	 */
@@ -44,12 +44,9 @@ public class Client extends Peer {
             ss.verbindungHergestellt();
             return true;
         } catch (UnknownHostException e) { 
-            System.err.println("Unbekannter Server");
             return false;
         } catch (IOException e) { 
-            System.err.println("IO-Probleme..."); 
             this.disconnect();
-            ss.verbindungHerstellen(ipString);
             return false;
         }
 	}

@@ -125,20 +125,24 @@ public class Schiffeversenken {
 						e.printStackTrace();
 					}
 					ResponseProtocol res = peer.readRes();
-					if(res.isGetroffen()) {
-						gegnMap.eintragen(x, y, true);	// Gegnerische Map: Matrix aktualisieren (Treffer)
-						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
-						if(gegnMap.alleVersenkt()) {
-							spielendeAnzeigen(true);
+					if(res != null) {
+						if(res.isGetroffen()) {
+							gegnMap.eintragen(x, y, true);	// Gegnerische Map: Matrix aktualisieren (Treffer)
+							gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
+							if(gegnMap.alleVersenkt()) {
+								spielendeAnzeigen(true);
+							}
+							zugAusfuehren(); // erneut Zug ausführen
+						} else {
+							gegnMap.eintragen(x, y, false);	// Gegnerische Map: Matrix aktualisieren (Niete)
+							gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
+							if(gegnMap.alleVersenkt()) {
+								spielendeAnzeigen(true);
+							}
+							warten();	// auf Gegner warten
 						}
-						zugAusfuehren(); // erneut Zug ausführen
 					} else {
-						gegnMap.eintragen(x, y, false);	// Gegnerische Map: Matrix aktualisieren (Niete)
-						gegnMap.paint(contr);			// Gegnerische Map: grafisch aktualisieren
-						if(gegnMap.alleVersenkt()) {
-							spielendeAnzeigen(true);
-						}
-						warten();	// auf Gegner warten
+						verbindungUnterbrochen();
 					}
 				}
 			};
@@ -167,26 +171,31 @@ public class Schiffeversenken {
 					}
 				});
 				RequestProtocol req = peer.readReq();	// Protokoll wird gelesen und ausgewertet
-				boolean istGetroffen = eigeneMap.istGetroffen(req.getX(), req.getY());
-				try {
-					peer.sendRes(new ResponseProtocol(istGetroffen));	// Antwort wird gesendet
-				} catch (IOException e) {
-					e.printStackTrace();
+				if(req != null) {
+					boolean istGetroffen = eigeneMap.istGetroffen(req.getX(), req.getY());
+					try {
+						peer.sendRes(new ResponseProtocol(istGetroffen));	// Antwort wird gesendet
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					if(istGetroffen) {
+						eigeneMap.paint(contr);	// GUI: Eigene Map wird neu gezeichnet
+						if(eigeneMap.alleVersenkt()) {
+							spielendeAnzeigen(false);
+		               	 }
+						 warten();
+					} else {
+						amZug = true;
+						eigeneMap.paint(contr);
+						if(eigeneMap.alleVersenkt()) {
+							spielendeAnzeigen(false);
+		               	}
+		               	zugAusfuehren();
+						
+					}
 				}
-				if(istGetroffen) {
-					eigeneMap.paint(contr);	// GUI: Eigene Map wird neu gezeichnet
-					if(eigeneMap.alleVersenkt()) {
-						spielendeAnzeigen(false);
-	               	 }
-					 warten();
-				} else {
-					amZug = true;
-					eigeneMap.paint(contr);
-					if(eigeneMap.alleVersenkt()) {
-						spielendeAnzeigen(false);
-	               	}
-	               	zugAusfuehren();
-					
+				else {
+					verbindungUnterbrochen();
 				}
 			}
 		};
@@ -207,7 +216,12 @@ public class Schiffeversenken {
 		return Peer.proofIP(ipString);
 	}
 	
-	public void verbindungUnterbrochen() {
-		// TODO
+	private void verbindungUnterbrochen() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override 
+			public void run() {
+				contr.zeigeVerbindungsstatus("Verbindung unterbrochen");
+			}
+		});
 	}
 }
